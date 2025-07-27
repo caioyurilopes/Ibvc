@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ibvc.Domain", "Ibvc.Domain\Ibvc.Domain.csproj", "{13AC40F6-8D6E-46E2-AA4B-701F7F5640E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ibvc.Data", "Ibvc.Data\Ibvc.Data.csproj", "{2906F46B-1DF3-4741-AAE3-A8C760ED4E74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ibvc.Api", "Ibvc.Api\Ibvc.Api.csproj", "{1DA8E86B-734D-4692-993D-D0AA9142B188}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13AC40F6-8D6E-46E2-AA4B-701F7F5640E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13AC40F6-8D6E-46E2-AA4B-701F7F5640E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13AC40F6-8D6E-46E2-AA4B-701F7F5640E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13AC40F6-8D6E-46E2-AA4B-701F7F5640E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2906F46B-1DF3-4741-AAE3-A8C760ED4E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2906F46B-1DF3-4741-AAE3-A8C760ED4E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2906F46B-1DF3-4741-AAE3-A8C760ED4E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2906F46B-1DF3-4741-AAE3-A8C760ED4E74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DA8E86B-734D-4692-993D-D0AA9142B188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA8E86B-734D-4692-993D-D0AA9142B188}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA8E86B-734D-4692-993D-D0AA9142B188}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DA8E86B-734D-4692-993D-D0AA9142B188}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
