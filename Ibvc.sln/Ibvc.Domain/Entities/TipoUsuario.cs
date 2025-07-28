@@ -2,11 +2,13 @@ namespace Ibvc.Domain.Entities;
 
 public enum TipoUsuario
 {
-    Admin,
-    Pastor,
-    Tesoureiro,
-    Obreiro,
-    Diacono,
-    Louvor,
-    Membro
+    Dev = 0,
+    Admin = 1,
+    Pastor = 2,
+    Tesoureiro = 3,
+    Secretaria = 4,
+    Obreiro = 5,
+    Diacono = 6,
+    Louvor = 7,
+    Membro = 8
 }

@@ -1,0 +1,212 @@
+﻿@page "/secretaria/membros/cadastrar"
+@layout MainLayout
+
+@inject IMembrosService MembrosService
+
+<PageTitle>Cadastrar novo membro</PageTitle>
+
+<div class="max-w-3xl mx-auto bg-zinc-900 p-4 rounded-xl shadow space-y-6">
+    <h2 class="text-xl font-semibold text-white">Dados pessoais</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Nome completo:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomeCompleto" type="text" placeholder="Ex: José Pedro"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Telefone:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Telefone" type="number" placeholder="Ex: (51) 99999-9999"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Data de nascimento:</label>
+            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.DataNascimento"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Gênero:</label>
+            <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="usuario.Genero">
+                <option disabled selected>Selecione</option>
+                @foreach (var genero in Enum.GetValues<Genero>())
+                {
+                    <option value="@genero">@genero</option>
+                }
+            </InputSelect>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Meio admissão</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.MeioAdmissao" type="text" placeholder="Ex: Aplicativo"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Naturalidade</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Naturalidade" type="text" placeholder="Ex: Brasileiro"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Estado Civil:</label>
+            <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="usuario.EstadoCivil"
+                         @onchange="HandleEstadoCivilChange">
+                <option disabled selected>Selecione</option>
+                @foreach (var estado in Enum.GetValues<EstadoCivil>())
+                {
+                    <option value="@estado">@estado.ToDisplay()</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+
+    @if (usuario.EstadoCivil == EstadoCivil.Casado || usuario.EstadoCivil == EstadoCivil.UniaoEstavel)
+    {
+        <h2 class="text-xl font-semibold text-white pt-6">Cônjuge</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-zinc-300">Selecionar membro existente (opcional):</label>
+                <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="usuario.ConjugeId">
+                    <option value=""></option>
+                    @foreach (var membro in membros)
+                    {
+                        <option value="@membro.Id">@membro.NomeCompleto</option>
+                    }
+                </InputSelect>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-zinc-300">Nome do conjugê (manual):</label>
+                <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomeConjuge" type="text"
+                           placeholder="Ex: Maria Silva"/>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-zinc-300">Data de casamento:</label>
+                <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.DataCasamento"/>
+            </div>
+        </div>
+    }
+
+    <h2 class="text-xl font-semibold text-white pt-6">Endereço</h2>
+    <div class="grid md:grid-cols-3 gap-4">
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">CEP:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Cep" type="number" placeholder="Ex: 99999-999"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Estado:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Estado" type="text" placeholder="Ex: Rio Grande do Sul"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">UF:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Uf" type="text" placeholder="Ex: RS"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Bairro:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Bairro" type="text" placeholder="Ex: Santo Antônio"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Logradouro:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Logradouro" type="text" placeholder="Ex: Santa Cruz do Sul"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Número:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Numero" type="number" placeholder="697"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Complemento:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Complemento" type="text" placeholder="Ex: Em fronte a ..."/>
+        </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-white pt-6">Batismo</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Data de batismo:</label>
+            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.Data"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Pastor batizando:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.Pastor" type="text"
+                       placeholder="Ex: Pastor João da Silva"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Igreja de batismo:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.Igreja" type="text"
+                       placeholder="Ex: Igreja Batista ..."/>
+        </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-white pt-6">Profissão de Fé</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Data de profissão de fé:</label>
+            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.ProfissaoDeFe.Data"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Pastor que realizou a profissão:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.ProfissaoDeFe.Pastor" type="text"
+                       placeholder="Ex: Pastor João da Silva"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Igreja da profissão:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.ProfissaoDeFe.Igreja" type="text"
+                       placeholder="Ex: Igreja Batista ..."/>
+        </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-white pt-6">Informações familiares</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Nome do pai:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomePai" type="text" placeholder="Ex: João da Silva"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">Nome da mãe:</label>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomeMae" type="text" placeholder="Ex: Maria Silva"/>
+        </div>
+    </div>
+
+    <div class="pt-6">
+        <button class="w-full bg-yellow-500 text-black font-semibold py-2 rounded-xl hover:bg-yellow-400 transition"
+                @onclick="Cadastrar">
+            Salvar Membro
+        </button>
+    </div>
+</div>
+
+@code {
+    private readonly Usuario usuario = new()
+    {
+        TipoUsuario = TipoUsuario.Membro,
+        DataNascimento = DateTime.Today,
+        DataCasamento = DateTime.Today,
+        DataAdmissao = DateTime.Today,
+        Batismo = new Batismo
+        {
+            Data = DateTime.Today
+        },
+        ProfissaoDeFe = new ProfissaoDeFe
+        {
+            Data = DateTime.Today
+        }
+    };
+
+    private List<Usuario>? membros = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        membros = await MembrosService.GetAllUsuariosAsync();
+    }
+
+    private async Task<List<Usuario>> ObterTodosOsMembrosAsync()
+    {
+        // TODO: substituir por chamada HTTP real
+        return new List<Usuario>();
+    }
+
+    private void HandleEstadoCivilChange(ChangeEventArgs e)
+    {
+        if (Enum.TryParse<EstadoCivil>(e.Value?.ToString(), out var estadoCivil))
+        {
+            usuario.EstadoCivil = estadoCivil;
+        }
+    }
+
+    private async Task Cadastrar()
+    {
+        // TODO: lógica real de envio para API
+        Console.WriteLine($"Usuário: {usuario.NomeCompleto} cadastrado.");
+    }
+
+}

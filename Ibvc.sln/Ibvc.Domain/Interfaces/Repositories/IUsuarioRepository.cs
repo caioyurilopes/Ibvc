@@ -5,4 +5,5 @@ namespace Ibvc.Domain.Interfaces.Repositories;
 public interface IUsuarioRepository
 {
     Task<Usuario?> GetByCelularAsync(string celular);
+    Task<List<Usuario>?> GetAllUsuariosAsync();
 }

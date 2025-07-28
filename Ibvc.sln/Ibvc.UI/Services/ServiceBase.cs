@@ -21,6 +21,40 @@ public abstract class ServiceBase
             HttpClient.DefaultRequestHeaders.Add("X-Api-Key", settings1.ApiKey);
     }
 
+    protected async Task<T?> GetAsync<T>(string url) where T : class, new()
+    {
+        try
+        {
+            var response = await HttpClient.GetAsync(url);
+            var resultJson = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonSerializer.Deserialize<T>(resultJson,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            }
+            else
+            {
+                if (typeof(T) == typeof(AuthResponse))
+                {
+                    var authResponse = new AuthResponse
+                    {
+                        Message = ((int)response.StatusCode).ToString()
+                    };
+                    return authResponse as T;
+                }
+
+                await LogError(resultJson, "Erro na API (GET)");
+                return default;
+            }
+        }
+        catch (Exception ex)
+        {
+            await LogError(ex.ToString(), "Exceção no GetAsync");
+            return default;
+        }
+    }
+    
     protected async Task<T?> PostAsync<T>(string url, object data) where T : class, new()
     {
         try

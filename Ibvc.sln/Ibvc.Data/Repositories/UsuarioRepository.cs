@@ -14,4 +14,9 @@ public class UsuarioRepository(AppDbContext db) : IUsuarioRepository
         return await _db.Usuarios
             .FirstOrDefaultAsync(u => u.Celular == celular);
     }
+
+    public async Task<List<Usuario>?> GetAllUsuariosAsync()
+    {
+        return await _db.Usuarios.ToListAsync();
+    }
 }

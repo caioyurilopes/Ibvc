@@ -43,6 +43,7 @@ builder.Services.AddScoped(sp =>
 
 // Registrar serviços da aplicação
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IMembrosService, MembrosService>();
 
 // Construir host e rodar app
 var host = builder.Build();

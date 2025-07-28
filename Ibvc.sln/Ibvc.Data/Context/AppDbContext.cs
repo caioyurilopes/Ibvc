@@ -14,10 +14,27 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<Usuario>(entity =>
         {
             entity.HasKey(u => u.Id);
+            entity.Property(u => u.Id)
+                .ValueGeneratedOnAdd();
+
             entity.HasOne(u => u.Conjuge)
                 .WithOne()
                 .HasForeignKey<Usuario>(u => u.ConjugeId)
                 .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<Batismo>(entity =>
+        {
+            entity.HasKey(b => b.Id);
+            entity.Property(b => b.Id)
+                .ValueGeneratedOnAdd();
+        });
+
+        modelBuilder.Entity<ProfissaoDeFe>(entity =>
+        {
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.Id)
+                .ValueGeneratedOnAdd();
         });
     }
 }

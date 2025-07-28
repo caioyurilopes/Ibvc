@@ -42,6 +42,7 @@ public static class ServiceCollectionExtensions
 
         services.AddDataServices(configuration);
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IMembrosService, MembrosService>();
         services.AddScoped<TokenService>();
         return services;
     }
