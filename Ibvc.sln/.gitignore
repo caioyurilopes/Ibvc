@@ -36,6 +36,7 @@ Ibvc.Data/appsettings.json
 **/.turbo/
 **/.vite/
 **/.next/
+Ibvc.UI/wwwroot/css/themes.css
 
 # Arquivos de lock do npm/yarn/pnpm
 package-lock.json
