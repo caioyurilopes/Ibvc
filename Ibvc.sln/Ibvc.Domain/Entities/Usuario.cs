@@ -8,18 +8,19 @@ public class Usuario
 
     // Dados pessoais //
     public string NomeCompleto { get; set; } = string.Empty;
-    public string CEP { get; set; } = string.Empty;
+    public string Cep { get; set; } = string.Empty;
     public string Logradouro { get; set; } = string.Empty;
-    public string Complemento { get; set; } = string.Empty;
+    public string? Complemento { get; set; } = string.Empty;
     public string Bairro { get; set; } = string.Empty;
-    public string UF { get; set; } = string.Empty;
+    public string Uf { get; set; } = string.Empty;
     public string Estado { get; set; } = string.Empty;
     public string Numero { get; set; } = string.Empty;
     public string Telefone { get; set; } = string.Empty;
     public DateTime DataNascimento { get; set; }
-    public string Naturalidade { get; set; } = string.Empty;
+    public string? Naturalidade { get; set; } = string.Empty;
     public Genero Genero { get; set; }
     public EstadoCivil EstadoCivil { get; set; }
+    public TipoUsuario TipoUsuario { get; set; }
 
     // Conjugê //
     public Guid? ConjugeId { get; set; }

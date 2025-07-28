@@ -12,6 +12,6 @@ public class UsuarioRepository(AppDbContext db) : IUsuarioRepository
     public async Task<Usuario?> GetByCelularAsync(string celular)
     {
         return await _db.Usuarios
-        .FirstOrDefaultAsync(u => u.Celular == celular);
+            .FirstOrDefaultAsync(u => u.Celular == celular);
     }
 }

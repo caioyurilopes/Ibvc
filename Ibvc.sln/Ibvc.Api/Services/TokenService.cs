@@ -1,0 +1,65 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using Ibvc.Api.Configurations;
+using Ibvc.Domain.DTOs.Responses;
+using Ibvc.Domain.Entities;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+
+namespace Ibvc.Api.Services;
+
+public class TokenService(IOptions<JwtSettings> jwtSettings)
+{
+    private readonly JwtSettings _jwt = jwtSettings.Value;
+
+    public AuthResponse GenerateToken(Usuario user)
+    {
+        var now = DateTime.UtcNow;
+
+        var claims = new List<Claim>
+        {
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new("Id", user.Id.ToString()),
+            new("Celular", user.Celular!),
+            new("Nome", user.NomeCompleto),
+        };
+
+        if (user.TipoUsuario != null)
+        {
+            claims.Add(new(ClaimTypes.Role, user.TipoUsuario.ToString()));
+        }
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.SecretKey));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            issuer: _jwt.Issuer,
+            audience: _jwt.Audience,
+            claims: claims,
+            notBefore: now,
+            expires: now.AddMinutes(_jwt.ExpirationMinutes),
+            signingCredentials: creds
+        );
+
+        return new AuthResponse
+        {
+            Token = new JwtSecurityTokenHandler().WriteToken(token),
+            RefreshToken = GenerateRefreshToken(),
+            IssueDate = now,
+            ExpireDate = now.AddMinutes(_jwt.ExpirationMinutes),
+            Claims = claims.Select(c => new AuthClaim { Type = c.Type, Value = c.Value }).ToList(),
+            Succeeded = true
+        };
+    }
+
+    private static string GenerateRefreshToken()
+    {
+        var bytes = new byte[32];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(bytes);
+        return Convert.ToBase64String(bytes);
+    }
+}

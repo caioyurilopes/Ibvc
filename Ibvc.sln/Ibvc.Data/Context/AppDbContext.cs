@@ -3,12 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ibvc.Data.Context;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-    : base(options) {}
-
-    public DbSet<Usuario> Usuarios { get;set; } = null!;
+    public DbSet<Usuario> Usuarios { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -18,9 +15,9 @@ public class AppDbContext : DbContext
         {
             entity.HasKey(u => u.Id);
             entity.HasOne(u => u.Conjuge)
-            .WithOne()
-            .HasForeignKey<Usuario>(u => u.ConjugeId)
-            .OnDelete(DeleteBehavior.Restrict);
+                .WithOne()
+                .HasForeignKey<Usuario>(u => u.ConjugeId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

@@ -1,7 +1,29 @@
+# Build #
+bin/
+obj/
+
+# SQLite local database #
+*.db
+*.db-shm
+*.db-wal
+
+# Rider/JetBrains
+.idea/
+
+# macOS
+.DS_Store
+
+# AppSettings
+**/appsettings.json
+
 /Ibvc.Domain/bin
 /Ibvc.Domain/obj
 /Ibvc.Data/bin
 /Ibvc.Data/obj
+/Ibvc.Data/appsettings.json
 /Ibvc.Api/bin
 /Ibvc.Api/obj
-/Ibvc.Data/appsettings.json
+/Ibvc.Api/ibvc.db
+/Ibvc.Api/ibvc.db-shm
+/Ibvc.Api/ibvc.db-wal
+/Ibvc.Api/appsettings.json
