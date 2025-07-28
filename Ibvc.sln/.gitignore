@@ -1,29 +1,54 @@
-# Build #
+# Build do .NET
 bin/
 obj/
 
-# SQLite local database #
+# Banco de dados local SQLite
 *.db
 *.db-shm
 *.db-wal
 
-# Rider/JetBrains
+# Configurações do Rider/JetBrains
 .idea/
 
 # macOS
-.DS_Store
+../.DS_Store
 
-# AppSettings
+# AppSettings (evita subir secrets locais)
 **/appsettings.json
 
-/Ibvc.Domain/bin
-/Ibvc.Domain/obj
-/Ibvc.Data/bin
-/Ibvc.Data/obj
-/Ibvc.Data/appsettings.json
-/Ibvc.Api/bin
-/Ibvc.Api/obj
-/Ibvc.Api/ibvc.db
-/Ibvc.Api/ibvc.db-shm
-/Ibvc.Api/ibvc.db-wal
-/Ibvc.Api/appsettings.json
+# Diretórios bin/obj específicos por projeto (opcional, pois já incluído 
+acima)
+Ibvc.Domain/bin/
+Ibvc.Domain/obj/
+Ibvc.Data/bin/
+Ibvc.Data/obj/
+Ibvc.Api/bin/
+Ibvc.Api/obj/
+
+# Banco de dados e configuração do projeto API
+Ibvc.Api/ibvc.db*
+Ibvc.Api/appsettings.json
+Ibvc.Data/appsettings.json
+
+# Node/Tailwind
+**/node_modules/
+**/dist/
+**/.turbo/
+**/.vite/
+**/.next/
+
+# Arquivos de lock do npm/yarn/pnpm
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Arquivos de configuração do Tailwind/PostCSS (opcional manter ou 
+ignorar)
+# tailwind.config.js
+# postcss.config.js
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+

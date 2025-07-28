@@ -1,0 +1,57 @@
+@page "/"
+@layout ContaLayout
+
+@inject NavigationManager NavigationManager
+
+<EditForm Model="_loginRequest" OnValidSubmit="HandleLogin">
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+                 alt="IBVC" class="mx-auto h-10 w-auto"/>
+            <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Bem-vindo!</h2>
+        </div>
+
+        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm space-y-6">
+            <div>
+                <label for="celular" class="block text-sm/6 font-medium text-gray-900">Celular</label>
+                <div class="mt-2">
+                    <InputText @bind-Value="_loginRequest.Celular" id="celular" name="celular" required
+                               class="@Classes.InputLogin"
+                               placeholder="(99) 99999-9999"/>
+                </div>
+            </div>
+
+            <div>
+                <div class="flex items-center justify-between">
+                    <label for="senha" class="block text-sm/6 font-medium text-gray-900">Senha</label>
+                    <div class="text-sm">
+                        <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Esqueceu a senha?</a>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <InputText @bind-Value="_loginRequest.Senha" type="password" id="senha" name="senha" required
+                               autocomplete="current-password"
+                               class="@Classes.InputLogin"
+                               placeholder="Digite sua senha"/>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="@Classes.BtnLogin">Entrar</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private readonly LoginRequest _loginRequest = new();
+
+    private async Task HandleLogin()
+    {
+        // Chamar o AuthService aqui — Exemplo:
+        // var resultado = await AuthService.LoginAsync(_loginRequest);
+        // if (resultado.Sucesso) { NavigationManager.NavigateTo("/dashboard"); }
+        Console.WriteLine($"Login enviado: {_loginRequest.Celular}, {_loginRequest.Senha}");
+    }
+
+}

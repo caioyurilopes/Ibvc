@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ibvc.Data", "Ibvc.Data\Ibvc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ibvc.Api", "Ibvc.Api\Ibvc.Api.csproj", "{1DA8E86B-734D-4692-993D-D0AA9142B188}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ibvc.UI", "Ibvc.UI\Ibvc.UI.csproj", "{4AD4B00F-B254-49C2-957F-DD17B1D4C825}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{1DA8E86B-734D-4692-993D-D0AA9142B188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DA8E86B-734D-4692-993D-D0AA9142B188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DA8E86B-734D-4692-993D-D0AA9142B188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AD4B00F-B254-49C2-957F-DD17B1D4C825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AD4B00F-B254-49C2-957F-DD17B1D4C825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD4B00F-B254-49C2-957F-DD17B1D4C825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AD4B00F-B254-49C2-957F-DD17B1D4C825}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
