@@ -26,7 +26,7 @@ public abstract class ServiceBase
         try
         {
             var response = await HttpClient.GetAsync(url);
-            var resultJson = await response.Content.ReadAsStringAsync();
+            string resultJson = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
@@ -44,7 +44,7 @@ public abstract class ServiceBase
                     return authResponse as T;
                 }
 
-                await LogError(resultJson, "Erro na API (GET)");
+                // await LogError(resultJson, "Erro na API (GET)");
                 return default;
             }
         }

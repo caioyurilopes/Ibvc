@@ -12,6 +12,11 @@ public static class AppExtensions
             .AllowAnonymous()
             .AddEndpointFilter<ApiKeyAuthorizationFilter>();
 
+        app.MapGroup("v1")
+            .MapViaCepEndpoints()
+            .AllowAnonymous()
+            .AddEndpointFilter<ApiKeyAuthorizationFilter>();
+
         app.MapGroup("v1/membros")
             .MapMembrosEndpoints()
             .AddEndpointFilter<ApiKeyAuthorizationFilter>();

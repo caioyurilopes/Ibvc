@@ -1,8 +1,8 @@
-﻿using Ibvc.Domain.Entities;
+﻿using Ibvc.Domain.DTOs.Responses;
 
 namespace Ibvc.Domain.Interfaces;
 
 public interface IMembrosService
 {
-    Task<List<Usuario>?> GetAllUsuariosAsync();
+    Task<List<NomesMembrosResponse>?> GetAllNomesMembrosAsync();
 }

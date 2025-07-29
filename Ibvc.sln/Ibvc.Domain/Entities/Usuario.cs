@@ -8,6 +8,7 @@ public class Usuario
 
     // Dados pessoais //
     public string NomeCompleto { get; set; } = string.Empty;
+    public string Cpf { get; set; } = string.Empty;
     public string Cep { get; set; } = string.Empty;
     public string Logradouro { get; set; } = string.Empty;
     public string? Complemento { get; set; } = string.Empty;

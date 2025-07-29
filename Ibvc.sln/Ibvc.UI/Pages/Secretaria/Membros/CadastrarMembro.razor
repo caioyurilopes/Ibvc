@@ -2,6 +2,7 @@
 @layout MainLayout
 
 @inject IMembrosService MembrosService
+@inject ICepService CepService
 
 <PageTitle>Cadastrar novo membro</PageTitle>
 
@@ -10,11 +11,30 @@
     <div class="grid md:grid-cols-2 gap-4">
         <div>
             <label class="block text-sm font-medium text-zinc-300">Nome completo:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomeCompleto" type="text" placeholder="Ex: José Pedro"/>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomeCompleto" type="text"
+                       placeholder="Ex: José Pedro"/>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-zinc-300">CPF:</label>
+            <input id="cpfCadastroMembro"
+                   maxlength="11"
+                   type="number"
+                   placeholder="999.999.999-99"
+                   class="@Classes.InputCadastroMembro"
+                   value="@_cpfMascara"
+                   @oninput="@OnCpfInput"
+            />
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Telefone:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Telefone" type="number" placeholder="Ex: (51) 99999-9999"/>
+            <input id="telefoneCadastroMembro"
+                   maxlength="16"
+                   type="tel"
+                   placeholder="(99) 9 9999-9999"
+                   class="@Classes.InputCadastroMembro"
+                   value="@_telefoneMascara"
+                   @oninput="@OnTelefoneInput"
+            />
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Data de nascimento:</label>
@@ -32,11 +52,13 @@
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Meio admissão</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.MeioAdmissao" type="text" placeholder="Ex: Aplicativo"/>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.MeioAdmissao" type="text"
+                       placeholder="Ex: Aplicativo"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Naturalidade</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Naturalidade" type="text" placeholder="Ex: Brasileiro"/>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Naturalidade" type="text"
+                       placeholder="Ex: Brasileiro"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Estado Civil:</label>
@@ -61,7 +83,7 @@
                     <option value=""></option>
                     @foreach (var membro in membros)
                     {
-                        <option value="@membro.Id">@membro.NomeCompleto</option>
+                        <option value="@membro.Id">@membro.Nome</option>
                     }
                 </InputSelect>
             </div>
@@ -81,11 +103,19 @@
     <div class="grid md:grid-cols-3 gap-4">
         <div>
             <label class="block text-sm font-medium text-zinc-300">CEP:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Cep" type="number" placeholder="Ex: 99999-999"/>
+            <input id="cepCadastroMembro"
+                   maxlength="9"
+                   type="number"
+                   placeholder="99999-999"
+                   class="@Classes.InputCadastroMembro"
+                   value="@_cepMascara"
+                   @oninput="@(e => OnCepInput(e))"
+            />
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Estado:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Estado" type="text" placeholder="Ex: Rio Grande do Sul"/>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Estado" type="text"
+                       placeholder="Ex: Rio Grande do Sul"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">UF:</label>
@@ -93,19 +123,23 @@
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Bairro:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Bairro" type="text" placeholder="Ex: Santo Antônio"/>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Bairro" type="text"
+                       placeholder="Ex: Santo Antônio"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Logradouro:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Logradouro" type="text" placeholder="Ex: Santa Cruz do Sul"/>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Logradouro" type="text"
+                       placeholder="Ex: Santa Cruz do Sul"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Número:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Numero" type="number" placeholder="697"/>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Numero" type="number"
+                       placeholder="697"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Complemento:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Complemento" type="text" placeholder="Ex: Em fronte a ..."/>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Complemento" type="text"
+                       placeholder="Ex: Em fronte a ..."/>
         </div>
     </div>
 
@@ -149,11 +183,13 @@
     <div class="grid md:grid-cols-2 gap-4">
         <div>
             <label class="block text-sm font-medium text-zinc-300">Nome do pai:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomePai" type="text" placeholder="Ex: João da Silva"/>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomePai" type="text"
+                       placeholder="Ex: João da Silva"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Nome da mãe:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomeMae" type="text" placeholder="Ex: Maria Silva"/>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomeMae" type="text"
+                       placeholder="Ex: Maria Silva"/>
         </div>
     </div>
 
@@ -163,9 +199,16 @@
             Salvar Membro
         </button>
     </div>
+
+    <Modal @ref="_modalCepErro"
+           Title="CEP não encontrado"
+           Message="Não encontramos esse CEP, por favor, verifique ou escreva os dados normalmente."
+           IsError="false" OnClose="CloseCepModal"
+    />
 </div>
 
 @code {
+
     private readonly Usuario usuario = new()
     {
         TipoUsuario = TipoUsuario.Membro,
@@ -182,11 +225,63 @@
         }
     };
 
-    private List<Usuario>? membros = new();
+    private string _telefoneMascara = string.Empty;
+    private string _cepMascara = string.Empty;
+    private string _cpfMascara = string.Empty;
+    private Modal? _modalCepErro;
+    private List<NomesMembrosResponse>? membros = new();
 
     protected override async Task OnInitializedAsync()
     {
-        membros = await MembrosService.GetAllUsuariosAsync();
+        membros = await MembrosService.GetAllNomesMembrosAsync();
+    }
+
+    private void OnTelefoneInput(ChangeEventArgs e)
+    {
+        string valor = e.Value?.ToString() ?? "";
+        _telefoneMascara = CelularFormatter.AplicarMascara(valor);
+        usuario.Telefone = CelularFormatter.RemoverMascara(valor);
+    }
+
+    private void OnCpfInput(ChangeEventArgs e)
+    {
+        string valor = e.Value?.ToString() ?? "";
+        _cpfMascara = CpfCnpjFormatter.AplicarMascara(valor);
+        usuario.Cpf = CpfCnpjFormatter.RemoverMascara(valor);
+    }
+
+    private async Task OnCepInput(ChangeEventArgs e)
+    {
+        string valor = e.Value?.ToString() ?? "";
+        _cepMascara = CepFormatter.AplicarMascara(valor);
+        usuario.Cep = CepFormatter.RemoverMascara(valor);
+
+        if (usuario.Cep.Length >= 8)
+        {
+            CepResponse? endereco = await CepService.GetEnderecoByCepAsync(usuario.Cep);
+            if (endereco is not null)
+            {
+                usuario.Logradouro = endereco.Logradouro ?? "";
+                usuario.Bairro = endereco.Bairro ?? "";
+                usuario.Estado = endereco.Localidade ?? "";
+                usuario.Uf = endereco.Uf ?? "";
+                usuario.Complemento = endereco.Complemento ?? "";
+            }
+            else if (_modalCepErro is not null)
+                await _modalCepErro.SetShowAsync(true);
+        }
+    }
+
+    private void CloseCepModal()
+    {
+        _cepMascara = string.Empty;
+        usuario.Cep = string.Empty;
+        usuario.Estado = string.Empty;
+        usuario.Uf = string.Empty;
+        usuario.Bairro = string.Empty;
+        usuario.Logradouro = string.Empty;
+        usuario.Numero = string.Empty;
+        usuario.Complemento = string.Empty;
     }
 
     private async Task<List<Usuario>> ObterTodosOsMembrosAsync()

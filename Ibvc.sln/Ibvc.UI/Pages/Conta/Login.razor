@@ -5,30 +5,35 @@
 @inject IAuthService AuthService
 
 <EditForm Model="_loginRequest" OnValidSubmit="HandleLogin">
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="flex h-screen flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
                  alt="IBVC" class="mx-auto h-10 w-auto"/>
-            <h2 class="mt-10 text-center text-2xl/9 md:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">
+            <h2 class="mt-10 text-center text-2xl/9 md:text-3xl font-bold tracking-tight text-gray-300">
                 Bem-vindo!</h2>
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm space-y-6">
             <div>
-                <label for="celular" class="block text-sm/6 md:text-2xl lg:text-3xl font-medium text-gray-900">Seu
+                <label for="celular" class="block text-sm/6 md:text-2xl font-medium text-gray-300">Seu
                     celular</label>
                 <div class="mt-2">
-                    <InputText @bind-Value="_loginRequest.Celular" id="celular" name="celular" required
-                               class="@Classes.InputLogin"
-                               placeholder="(99) 99999-9999"/>
+                    <input id="celular"
+                           name="celular"
+                           maxlength="16"
+                           type="tel"
+                           placeholder="(99) 9 9999-9999"
+                           class="@Classes.InputLogin"
+                           value="@_celularMascara"
+                           @oninput="OnCelularInput"/>
                 </div>
             </div>
 
             <div>
                 <div class="flex items-center justify-between">
-                    <label for="senha" class="block text-sm/6 md:text-2xl lg:text-3xl font-medium text-gray-900">Sua
+                    <label for="senha" class="block text-sm/6 md:text-2xl font-medium text-gray-300">Sua
                         senha</label>
-                    <div class="text-sm lg:text-lg">
+                    <div class="text-sm md:text-lg">
                         <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Esqueceu a senha?</a>
                     </div>
                 </div>
@@ -40,16 +45,11 @@
                 </div>
             </div>
 
-            @if (!string.IsNullOrWhiteSpace(_loginErro))
-            {
-                <div class="text-red-600 text-sm md:text-lg lg:text-2xl mt-4 text-center">
-                    @_loginErro
-                </div>
-            }
-
             <div>
                 <button type="submit" class="@Classes.BtnLogin">Entrar</button>
             </div>
+
+            <Modal @ref="_modalErro" Title="Erro no login" Message="@_loginErro" IsError="true" OnClose="FecharErro"/>
         </div>
     </div>
 </EditForm>
@@ -57,32 +57,32 @@
 @code {
     private readonly LoginRequest _loginRequest = new();
     private string? _loginErro = string.Empty;
+    private string _celularMascara = string.Empty;
+    private Modal? _modalErro;
 
     private async Task HandleLogin()
     {
         try
         {
-            NavigationManager.NavigateTo("/home");
-            
-            // _loginErro = string.Empty;
-            //
-            // AuthResponse? resultado = await AuthService.LoginAsync(_loginRequest);
-            // if (resultado is null)
-            // {
-            //     _loginErro = "Erro inesperado ao tentar fazer login.";
-            // }
-            // else if (resultado.Message == "401")
-            // {
-            //     _loginErro = "Usuário não cadastrado no sistema, por favor, contate a secretaria da igreja.";
-            // }
-            // else if (resultado.Message == "403")
-            // {
-            //     _loginErro = "Senha incorreta, por favor, tente novamente.";
-            // }
-            // else
-            // {
-            //     NavigationManager.NavigateTo("/home");
-            // }
+            _loginErro = string.Empty;
+
+            AuthResponse? response = await AuthService.LoginAsync(_loginRequest);
+            if (response is null)
+            {
+                await MostrarErro("Erro inesperado ao tentar fazer login.");
+            }
+            else if (response.Message == "401")
+            {
+                await MostrarErro("Usuário não cadastrado no sistema, por favor, contate a secretaria da igreja.");
+            }
+            else if (response.Message == "403")
+            {
+                await MostrarErro("Senha incorreta, por favor, tente novamente.");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/home");
+            }
         }
         catch (Exception ex)
         {
@@ -90,4 +90,29 @@
             throw;
         }
     }
+
+    private void OnCelularInput(ChangeEventArgs e)
+    {
+        string valor = e.Value?.ToString() ?? "";
+        string numeros = CelularFormatter.RemoverMascara(valor);
+        _celularMascara = CelularFormatter.AplicarMascara(numeros);
+        _loginRequest.Celular = numeros;
+    }
+
+    private async Task MostrarErro(string message)
+    {
+        _loginErro = message;
+        if (_modalErro is not null)
+            await _modalErro.SetShowAsync(true);
+    }
+
+    private Task FecharErro()
+    {
+        _loginErro = string.Empty;
+        _loginRequest.Celular = string.Empty;
+        _loginRequest.Senha = string.Empty;
+        _celularMascara = string.Empty;
+        return Task.CompletedTask;
+    }
+
 }

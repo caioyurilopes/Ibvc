@@ -1,4 +1,5 @@
 using Ibvc.Data.Context;
+using Ibvc.Domain.DTOs.Responses;
 using Ibvc.Domain.Entities;
 using Ibvc.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +16,14 @@ public class UsuarioRepository(AppDbContext db) : IUsuarioRepository
             .FirstOrDefaultAsync(u => u.Celular == celular);
     }
 
-    public async Task<List<Usuario>?> GetAllUsuariosAsync()
+    public async Task<List<NomesMembrosResponse>?> GetAllNomesMembrosAsync()
     {
-        return await _db.Usuarios.ToListAsync();
+        return await _db.Usuarios
+            .Select(u => new NomesMembrosResponse()
+            {
+                Id = u.Id,
+                Nome = u.NomeCompleto
+            })
+            .ToListAsync();
     }
 }
