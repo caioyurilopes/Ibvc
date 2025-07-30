@@ -17,8 +17,8 @@
         <div>
             <label class="block text-sm font-medium text-zinc-300">CPF:</label>
             <input id="cpfCadastroMembro"
-                   maxlength="11"
-                   type="number"
+                   maxlength="18"
+                   type="text"
                    placeholder="999.999.999-99"
                    class="@Classes.InputCadastroMembro"
                    value="@_cpfMascara"
@@ -81,9 +81,12 @@
                 <label class="block text-sm font-medium text-zinc-300">Selecionar membro existente (opcional):</label>
                 <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="usuario.ConjugeId">
                     <option value=""></option>
-                    @foreach (var membro in membros)
+                    @if (membros != null)
                     {
-                        <option value="@membro.Id">@membro.Nome</option>
+                        foreach (var membro in membros)
+                        {
+                            <option value="@membro.Id">@membro.Nome</option>
+                        }
                     }
                 </InputSelect>
             </div>
@@ -105,7 +108,7 @@
             <label class="block text-sm font-medium text-zinc-300">CEP:</label>
             <input id="cepCadastroMembro"
                    maxlength="9"
-                   type="number"
+                   type="text"
                    placeholder="99999-999"
                    class="@Classes.InputCadastroMembro"
                    value="@_cepMascara"
@@ -147,12 +150,31 @@
     <div class="grid md:grid-cols-2 gap-4">
         <div>
             <label class="block text-sm font-medium text-zinc-300">Data de batismo:</label>
-            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.Data"/>
+            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo!.Data"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Pastor batizando:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.Pastor" type="text"
-                       placeholder="Ex: Pastor João da Silva"/>
+            <div class="flex items-center gap-2 mb-1">
+                <label class="text-sm text-zinc-300">Informar manualmente</label>
+                <CheckBox @bind-Value="_informarPastorBatismo"/>
+            </div>
+
+            @if (!_informarPastorBatismo)
+            {
+                <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.PastorId">
+                    <option value="">Selecione um membro</option>
+                    @if (membros is not null)
+                        foreach (var membro in membros)
+                        {
+                            <option value="@membro.Id">@membro.Nome</option>
+                        }
+                </InputSelect>
+            }
+            else
+            {
+                <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.PastorNomeManual"
+                           type="text" placeholder="Ex: Pastor João da Silva"/>
+            }
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Igreja de batismo:</label>
@@ -165,12 +187,31 @@
     <div class="grid md:grid-cols-2 gap-4">
         <div>
             <label class="block text-sm font-medium text-zinc-300">Data de profissão de fé:</label>
-            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.ProfissaoDeFe.Data"/>
+            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.ProfissaoDeFe!.Data"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Pastor que realizou a profissão:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.ProfissaoDeFe.Pastor" type="text"
-                       placeholder="Ex: Pastor João da Silva"/>
+            <div class="flex items-center gap-2 mb-1">
+                <label class="text-sm text-zinc-300">Informar manualmente</label>
+                <CheckBox @bind-Value="_informarPastorProfissao"/>
+            </div>
+
+            @if (!_informarPastorProfissao)
+            {
+                <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="usuario.ProfissaoDeFe.PastorId">
+                    <option value="">Selecione um membro</option>
+                    @if (membros is not null)
+                        @foreach (var membro in membros)
+                    {
+                        <option value="@membro.Id">@membro.Nome</option>
+                    }
+                </InputSelect>
+            }
+            else
+            {
+                <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.PastorNomeManual"
+                           type="text" placeholder="Ex: Pastor João da Silva"/>
+            }
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Igreja da profissão:</label>
@@ -205,6 +246,11 @@
            Message="Não encontramos esse CEP, por favor, verifique ou escreva os dados normalmente."
            IsError="false" OnClose="CloseCepModal"
     />
+
+    <Modal @ref="_modalCadastroMembro"
+           Title="Membro cadastrado com sucesso"
+           Message="Esse novo membro foi cadastrado com sucesso!"
+           IsError="false" OnClose="CloseCadastroMembroModal"/>
 </div>
 
 @code {
@@ -228,7 +274,10 @@
     private string _telefoneMascara = string.Empty;
     private string _cepMascara = string.Empty;
     private string _cpfMascara = string.Empty;
+    private bool _informarPastorBatismo = false;
+    private bool _informarPastorProfissao = false;
     private Modal? _modalCepErro;
+    private Modal? _modalCadastroMembro;
     private List<NomesMembrosResponse>? membros = new();
 
     protected override async Task OnInitializedAsync()
@@ -236,6 +285,61 @@
         membros = await MembrosService.GetAllNomesMembrosAsync();
     }
 
+    private async Task Cadastrar()
+    {
+        try
+        {
+            CadastrarMembroRequest request = new CadastrarMembroRequest
+            {
+                NomeCompleto = usuario.NomeCompleto,
+                Cpf = usuario.Cpf,
+                Cep = usuario.Cep,
+                Logradouro = usuario.Logradouro,
+                Complemento = usuario.Complemento,
+                Bairro = usuario.Bairro,
+                Uf = usuario.Uf,
+                Estado = usuario.Estado,
+                Numero = usuario.Numero,
+                Telefone = usuario.Telefone,
+                DataNascimento = usuario.DataNascimento,
+                Naturalidade = usuario.Naturalidade,
+                Genero = usuario.Genero,
+                EstadoCivil = usuario.EstadoCivil,
+                TipoUsuario = usuario.TipoUsuario,
+
+                ConjugeId = usuario.ConjugeId,
+                NomeConjuge = usuario.NomeConjuge,
+                DataCasamento = usuario.DataCasamento,
+
+                NomePai = usuario.NomePai,
+                NomeMae = usuario.NomeMae,
+
+                DataBatismo = usuario.Batismo?.Data,
+                IgrejaBatismo = usuario.Batismo?.Igreja,
+                PastorBatismoId = usuario.Batismo?.PastorId,
+                PastorBatismoNomeManual = usuario.Batismo?.PastorNomeManual,
+
+                DataProfissaoFe = usuario.ProfissaoDeFe?.Data,
+                IgrejaProfissaoFe = usuario.ProfissaoDeFe?.Igreja,
+                PastorProfissaoFeId = usuario.ProfissaoDeFe?.PastorId,
+                PastorProfissaoFeNomeManual = usuario.ProfissaoDeFe?.PastorNomeManual,
+
+                DataAdmissao = usuario.DataAdmissao,
+                MeioAdmissao = usuario.MeioAdmissao,
+
+                Celular = usuario.Celular,
+                Senha = usuario.Senha
+            };
+
+            await MembrosService.CadastrarMembroAsync(request);
+            _modalCadastroMembro?.SetShowAsync(true);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao cadastrar membro: {ex.Message}");
+        }
+    }
+    
     private void OnTelefoneInput(ChangeEventArgs e)
     {
         string valor = e.Value?.ToString() ?? "";
@@ -272,6 +376,14 @@
         }
     }
 
+    private void HandleEstadoCivilChange(ChangeEventArgs e)
+    {
+        if (Enum.TryParse<EstadoCivil>(e.Value?.ToString(), out var estadoCivil))
+        {
+            usuario.EstadoCivil = estadoCivil;
+        }
+    }
+
     private void CloseCepModal()
     {
         _cepMascara = string.Empty;
@@ -284,24 +396,51 @@
         usuario.Complemento = string.Empty;
     }
 
-    private async Task<List<Usuario>> ObterTodosOsMembrosAsync()
+    private void CloseCadastroMembroModal()
     {
-        // TODO: substituir por chamada HTTP real
-        return new List<Usuario>();
-    }
-
-    private void HandleEstadoCivilChange(ChangeEventArgs e)
-    {
-        if (Enum.TryParse<EstadoCivil>(e.Value?.ToString(), out var estadoCivil))
+        usuario.NomeCompleto = string.Empty;
+        usuario.Cpf = string.Empty;
+        usuario.Cep = string.Empty;
+        usuario.Logradouro = string.Empty;
+        usuario.Complemento = string.Empty;
+        usuario.Bairro = string.Empty;
+        usuario.Uf = string.Empty;
+        usuario.Estado = string.Empty;
+        usuario.Numero = string.Empty;
+        usuario.Telefone = string.Empty;
+        usuario.DataNascimento = DateTime.Today;
+        usuario.Naturalidade = string.Empty;
+        usuario.Genero = default;
+        usuario.EstadoCivil = default;
+        usuario.TipoUsuario = TipoUsuario.Membro;
+        usuario.ConjugeId = null;
+        usuario.NomeConjuge = string.Empty;
+        usuario.DataCasamento = DateTime.Today;
+        usuario.NomePai = string.Empty;
+        usuario.NomeMae = string.Empty;
+        usuario.DataAdmissao = DateTime.Today;
+        usuario.MeioAdmissao = string.Empty;
+        usuario.Celular = string.Empty;
+        usuario.Senha = string.Empty;
+        usuario.Batismo = new Batismo
         {
-            usuario.EstadoCivil = estadoCivil;
-        }
-    }
-
-    private async Task Cadastrar()
-    {
-        // TODO: lógica real de envio para API
-        Console.WriteLine($"Usuário: {usuario.NomeCompleto} cadastrado.");
+            Data = DateTime.Today,
+            Igreja = string.Empty,
+            PastorId = null,
+            PastorNomeManual = string.Empty
+        };
+        usuario.ProfissaoDeFe = new ProfissaoDeFe
+        {
+            Data = DateTime.Today,
+            Igreja = string.Empty,
+            PastorId = null,
+            PastorNomeManual = string.Empty
+        };
+        _cpfMascara = string.Empty;
+        _telefoneMascara = string.Empty;
+        _cepMascara = string.Empty;
+        _informarPastorBatismo = false;
+        _informarPastorProfissao = false;
     }
 
 }

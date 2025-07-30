@@ -28,6 +28,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.HasKey(b => b.Id);
             entity.Property(b => b.Id)
                 .ValueGeneratedOnAdd();
+
+            entity.HasOne(b => b.Pastor)
+                .WithMany()
+                .HasForeignKey(b => b.PastorId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<ProfissaoDeFe>(entity =>
@@ -35,6 +40,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.HasKey(p => p.Id);
             entity.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
+
+            entity.HasOne(p => p.Pastor)
+                .WithMany()
+                .HasForeignKey(p => p.PastorId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

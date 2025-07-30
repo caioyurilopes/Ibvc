@@ -19,20 +19,22 @@ public static class CpfCnpjFormatter
 
     private static string AplicarMascaraCpf(string digits)
     {
-        digits = digits.PadRight(11);
+        if (digits.Length > 11)
+            digits = digits[..11];
 
         return digits.Length switch
         {
             <= 3 => digits,
             <= 6 => $"{digits[..3]}.{digits[3..]}",
             <= 9 => $"{digits[..3]}.{digits[3..6]}.{digits[6..]}",
-            _ => $"{digits[..3]}.{digits[3..6]}.{digits[6..9]}-{digits[9..11]}"
+            _ => $"{digits[..3]}.{digits[3..6]}.{digits[6..9]}-{digits[9..]}"
         };
     }
 
     private static string AplicarMascaraCnpj(string digits)
     {
-        digits = digits.PadRight(14);
+        if (digits.Length > 14)
+            digits = digits[..14];
 
         return digits.Length switch
         {

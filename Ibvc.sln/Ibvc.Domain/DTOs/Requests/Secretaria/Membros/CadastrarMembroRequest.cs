@@ -1,11 +1,10 @@
-using Ibvc.Domain.DTOs.Enums;
+﻿using Ibvc.Domain.DTOs.Enums;
+using Ibvc.Domain.Entities;
 
-namespace Ibvc.Domain.Entities;
+namespace Ibvc.Domain.DTOs.Requests.Secretaria.Membros;
 
-public class Usuario
+public class CadastrarMembroRequest
 {
-    public int Id { get; set; }
-
     // Dados pessoais //
     public string NomeCompleto { get; set; } = string.Empty;
     public string Cpf { get; set; } = string.Empty;
@@ -25,18 +24,26 @@ public class Usuario
 
     // Cônjuge //
     public int? ConjugeId { get; set; }
-    public Usuario? Conjuge { get; set; }
-    public string? NomeConjuge { get; set; } = string.Empty; // Nome manual
+    public string? NomeConjuge { get; set; }
     public DateTime? DataCasamento { get; set; }
 
     // Pais //
     public string? NomePai { get; set; } = string.Empty;
     public string? NomeMae { get; set; } = string.Empty;
 
-    // Batismo e Profissão de Fé //
-    public Batismo? Batismo { get; set; }
-    public ProfissaoDeFe? ProfissaoDeFe { get; set; }
+    // Batismo //
+    public DateTime? DataBatismo { get; set; }
+    public string? IgrejaBatismo { get; set; } = string.Empty;
+    public int? PastorBatismoId { get; set; }
+    public string? PastorBatismoNomeManual { get; set; } = string.Empty;
 
+    // Profissão de Fé //
+    public DateTime? DataProfissaoFe { get; set; }
+    public string? IgrejaProfissaoFe { get; set; } = string.Empty;
+    public int? PastorProfissaoFeId { get; set; }
+    public string? PastorProfissaoFeNomeManual { get; set; } = string.Empty;
+
+    // Dados administrativos //
     public DateTime DataAdmissao { get; set; }
     public string MeioAdmissao { get; set; } = string.Empty;
 

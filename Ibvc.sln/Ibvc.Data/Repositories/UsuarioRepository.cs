@@ -26,4 +26,11 @@ public class UsuarioRepository(AppDbContext db) : IUsuarioRepository
             })
             .ToListAsync();
     }
+
+    public async Task<Usuario> CadastrarUsuarioAsync(Usuario usuario)
+    {
+        await _db.Usuarios.AddAsync(usuario);
+        await _db.SaveChangesAsync();
+        return usuario;
+    }
 }

@@ -30,11 +30,15 @@ namespace Ibvc.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Pastor")
-                        .IsRequired()
+                    b.Property<int?>("PastorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PastorNomeManual")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PastorId");
 
                     b.ToTable("Batismo");
                 });
@@ -52,11 +56,15 @@ namespace Ibvc.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Pastor")
-                        .IsRequired()
+                    b.Property<int?>("PastorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PastorNomeManual")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PastorId");
 
                     b.ToTable("ProfissaoDeFe");
                 });
@@ -165,6 +173,26 @@ namespace Ibvc.Data.Migrations
                     b.HasIndex("ProfissaoDeFeId");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("Ibvc.Domain.Entities.Batismo", b =>
+                {
+                    b.HasOne("Ibvc.Domain.Entities.Usuario", "Pastor")
+                        .WithMany()
+                        .HasForeignKey("PastorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Pastor");
+                });
+
+            modelBuilder.Entity("Ibvc.Domain.Entities.ProfissaoDeFe", b =>
+                {
+                    b.HasOne("Ibvc.Domain.Entities.Usuario", "Pastor")
+                        .WithMany()
+                        .HasForeignKey("PastorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Pastor");
                 });
 
             modelBuilder.Entity("Ibvc.Domain.Entities.Usuario", b =>
