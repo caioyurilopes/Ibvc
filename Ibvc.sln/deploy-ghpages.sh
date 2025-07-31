@@ -12,6 +12,9 @@ REPO="https://github.com/caioyurilopes/Ibvc.git"
 BRANCH="gh-pages"
 BASE_PATH="/Ibvc/"
 
+echo "🧹 Limpando build antigo..."
+dotnet clean $PROJETO
+
 echo "📦 Publicando o projeto $PROJETO..."
 dotnet publish $PROJETO -c Release
 
