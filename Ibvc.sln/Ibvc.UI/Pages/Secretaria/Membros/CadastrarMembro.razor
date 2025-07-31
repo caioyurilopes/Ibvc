@@ -11,7 +11,7 @@
     <div class="grid md:grid-cols-2 gap-4">
         <div>
             <label class="block text-sm font-medium text-zinc-300">Nome completo:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomeCompleto" type="text"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.NomeCompleto" type="text"
                        placeholder="Ex: José Pedro"/>
         </div>
         <div>
@@ -38,11 +38,11 @@
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Data de nascimento:</label>
-            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.DataNascimento"/>
+            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="_usuario.DataNascimento"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Gênero:</label>
-            <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="usuario.Genero">
+            <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Genero">
                 <option disabled selected>Selecione</option>
                 @foreach (var genero in Enum.GetValues<Genero>())
                 {
@@ -52,17 +52,17 @@
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Meio admissão</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.MeioAdmissao" type="text"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.MeioAdmissao" type="text"
                        placeholder="Ex: Aplicativo"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Naturalidade</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Naturalidade" type="text"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Naturalidade" type="text"
                        placeholder="Ex: Brasileiro"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Estado Civil:</label>
-            <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="usuario.EstadoCivil"
+            <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="_usuario.EstadoCivil"
                          @onchange="HandleEstadoCivilChange">
                 <option disabled selected>Selecione</option>
                 @foreach (var estado in Enum.GetValues<EstadoCivil>())
@@ -73,17 +73,17 @@
         </div>
     </div>
 
-    @if (usuario.EstadoCivil == EstadoCivil.Casado || usuario.EstadoCivil == EstadoCivil.UniaoEstavel)
+    @if (_usuario.EstadoCivil == EstadoCivil.Casado || _usuario.EstadoCivil == EstadoCivil.UniaoEstavel)
     {
         <h2 class="text-xl font-semibold text-white pt-6">Cônjuge</h2>
         <div class="grid md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-zinc-300">Selecionar membro existente (opcional):</label>
-                <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="usuario.ConjugeId">
+                <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="_usuario.ConjugeId">
                     <option value=""></option>
-                    @if (membros != null)
+                    @if (_membros != null)
                     {
-                        foreach (var membro in membros)
+                        foreach (var membro in _membros)
                         {
                             <option value="@membro.Id">@membro.Nome</option>
                         }
@@ -92,12 +92,12 @@
             </div>
             <div>
                 <label class="block text-sm font-medium text-zinc-300">Nome do conjugê (manual):</label>
-                <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomeConjuge" type="text"
+                <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.NomeConjuge" type="text"
                            placeholder="Ex: Maria Silva"/>
             </div>
             <div>
                 <label class="block text-sm font-medium text-zinc-300">Data de casamento:</label>
-                <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.DataCasamento"/>
+                <InputDate class="@Classes.InputCadastroMembro" @bind-Value="_usuario.DataCasamento"/>
             </div>
         </div>
     }
@@ -117,31 +117,31 @@
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Estado:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Estado" type="text"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Estado" type="text"
                        placeholder="Ex: Rio Grande do Sul"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">UF:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Uf" type="text" placeholder="Ex: RS"/>
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Uf" type="text" placeholder="Ex: RS"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Bairro:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Bairro" type="text"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Bairro" type="text"
                        placeholder="Ex: Santo Antônio"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Logradouro:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Logradouro" type="text"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Logradouro" type="text"
                        placeholder="Ex: Santa Cruz do Sul"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Número:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Numero" type="number"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Numero" type="number"
                        placeholder="697"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Complemento:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Complemento" type="text"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Complemento" type="text"
                        placeholder="Ex: Em fronte a ..."/>
         </div>
     </div>
@@ -150,7 +150,7 @@
     <div class="grid md:grid-cols-2 gap-4">
         <div>
             <label class="block text-sm font-medium text-zinc-300">Data de batismo:</label>
-            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo!.Data"/>
+            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Batismo!.Data"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Pastor batizando:</label>
@@ -161,10 +161,10 @@
 
             @if (!_informarPastorBatismo)
             {
-                <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.PastorId">
+                <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Batismo.PastorId">
                     <option value="">Selecione um membro</option>
-                    @if (membros is not null)
-                        foreach (var membro in membros)
+                    @if (_membros is not null)
+                        foreach (var membro in _membros)
                         {
                             <option value="@membro.Id">@membro.Nome</option>
                         }
@@ -172,13 +172,13 @@
             }
             else
             {
-                <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.PastorNomeManual"
+                <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Batismo.PastorNomeManual"
                            type="text" placeholder="Ex: Pastor João da Silva"/>
             }
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Igreja de batismo:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.Igreja" type="text"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Batismo.Igreja" type="text"
                        placeholder="Ex: Igreja Batista ..."/>
         </div>
     </div>
@@ -187,7 +187,7 @@
     <div class="grid md:grid-cols-2 gap-4">
         <div>
             <label class="block text-sm font-medium text-zinc-300">Data de profissão de fé:</label>
-            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="usuario.ProfissaoDeFe!.Data"/>
+            <InputDate class="@Classes.InputCadastroMembro" @bind-Value="_usuario.ProfissaoDeFe!.Data"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Pastor que realizou a profissão:</label>
@@ -198,10 +198,10 @@
 
             @if (!_informarPastorProfissao)
             {
-                <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="usuario.ProfissaoDeFe.PastorId">
+                <InputSelect class="@Classes.InputCadastroMembro" @bind-Value="_usuario.ProfissaoDeFe.PastorId">
                     <option value="">Selecione um membro</option>
-                    @if (membros is not null)
-                        @foreach (var membro in membros)
+                    @if (_membros is not null)
+                        @foreach (var membro in _membros)
                     {
                         <option value="@membro.Id">@membro.Nome</option>
                     }
@@ -209,13 +209,13 @@
             }
             else
             {
-                <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.Batismo.PastorNomeManual"
+                <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.Batismo.PastorNomeManual"
                            type="text" placeholder="Ex: Pastor João da Silva"/>
             }
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Igreja da profissão:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.ProfissaoDeFe.Igreja" type="text"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.ProfissaoDeFe.Igreja" type="text"
                        placeholder="Ex: Igreja Batista ..."/>
         </div>
     </div>
@@ -224,12 +224,12 @@
     <div class="grid md:grid-cols-2 gap-4">
         <div>
             <label class="block text-sm font-medium text-zinc-300">Nome do pai:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomePai" type="text"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.NomePai" type="text"
                        placeholder="Ex: João da Silva"/>
         </div>
         <div>
             <label class="block text-sm font-medium text-zinc-300">Nome da mãe:</label>
-            <InputText class="@Classes.InputCadastroMembro" @bind-Value="usuario.NomeMae" type="text"
+            <InputText class="@Classes.InputCadastroMembro" @bind-Value="_usuario.NomeMae" type="text"
                        placeholder="Ex: Maria Silva"/>
         </div>
     </div>
@@ -255,7 +255,7 @@
 
 @code {
 
-    private readonly Usuario usuario = new()
+    private readonly Usuario _usuario = new()
     {
         TipoUsuario = TipoUsuario.Membro,
         DataNascimento = DateTime.Today,
@@ -274,15 +274,15 @@
     private string _telefoneMascara = string.Empty;
     private string _cepMascara = string.Empty;
     private string _cpfMascara = string.Empty;
-    private bool _informarPastorBatismo = false;
-    private bool _informarPastorProfissao = false;
+    private bool _informarPastorBatismo;
+    private bool _informarPastorProfissao;
     private Modal? _modalCepErro;
     private Modal? _modalCadastroMembro;
-    private List<NomesMembrosResponse>? membros = new();
+    private List<NomesMembrosResponse>? _membros = new List<NomesMembrosResponse>();
 
     protected override async Task OnInitializedAsync()
     {
-        membros = await MembrosService.GetAllNomesMembrosAsync();
+        _membros = await MembrosService.GetAllNomesMembrosAsync();
     }
 
     private async Task Cadastrar()
@@ -291,44 +291,44 @@
         {
             CadastrarMembroRequest request = new CadastrarMembroRequest
             {
-                NomeCompleto = usuario.NomeCompleto,
-                Cpf = usuario.Cpf,
-                Cep = usuario.Cep,
-                Logradouro = usuario.Logradouro,
-                Complemento = usuario.Complemento,
-                Bairro = usuario.Bairro,
-                Uf = usuario.Uf,
-                Estado = usuario.Estado,
-                Numero = usuario.Numero,
-                Telefone = usuario.Telefone,
-                DataNascimento = usuario.DataNascimento,
-                Naturalidade = usuario.Naturalidade,
-                Genero = usuario.Genero,
-                EstadoCivil = usuario.EstadoCivil,
-                TipoUsuario = usuario.TipoUsuario,
+                NomeCompleto = _usuario.NomeCompleto,
+                Cpf = _usuario.Cpf,
+                Cep = _usuario.Cep,
+                Logradouro = _usuario.Logradouro,
+                Complemento = _usuario.Complemento,
+                Bairro = _usuario.Bairro,
+                Uf = _usuario.Uf,
+                Estado = _usuario.Estado,
+                Numero = _usuario.Numero,
+                Telefone = _usuario.Telefone,
+                DataNascimento = _usuario.DataNascimento,
+                Naturalidade = _usuario.Naturalidade,
+                Genero = _usuario.Genero,
+                EstadoCivil = _usuario.EstadoCivil,
+                TipoUsuario = _usuario.TipoUsuario,
 
-                ConjugeId = usuario.ConjugeId,
-                NomeConjuge = usuario.NomeConjuge,
-                DataCasamento = usuario.DataCasamento,
+                ConjugeId = _usuario.ConjugeId,
+                NomeConjuge = _usuario.NomeConjuge,
+                DataCasamento = _usuario.DataCasamento,
 
-                NomePai = usuario.NomePai,
-                NomeMae = usuario.NomeMae,
+                NomePai = _usuario.NomePai,
+                NomeMae = _usuario.NomeMae,
 
-                DataBatismo = usuario.Batismo?.Data,
-                IgrejaBatismo = usuario.Batismo?.Igreja,
-                PastorBatismoId = usuario.Batismo?.PastorId,
-                PastorBatismoNomeManual = usuario.Batismo?.PastorNomeManual,
+                DataBatismo = _usuario.Batismo?.Data,
+                IgrejaBatismo = _usuario.Batismo?.Igreja,
+                PastorBatismoId = _usuario.Batismo?.PastorId,
+                PastorBatismoNomeManual = _usuario.Batismo?.PastorNomeManual,
 
-                DataProfissaoFe = usuario.ProfissaoDeFe?.Data,
-                IgrejaProfissaoFe = usuario.ProfissaoDeFe?.Igreja,
-                PastorProfissaoFeId = usuario.ProfissaoDeFe?.PastorId,
-                PastorProfissaoFeNomeManual = usuario.ProfissaoDeFe?.PastorNomeManual,
+                DataProfissaoFe = _usuario.ProfissaoDeFe?.Data,
+                IgrejaProfissaoFe = _usuario.ProfissaoDeFe?.Igreja,
+                PastorProfissaoFeId = _usuario.ProfissaoDeFe?.PastorId,
+                PastorProfissaoFeNomeManual = _usuario.ProfissaoDeFe?.PastorNomeManual,
 
-                DataAdmissao = usuario.DataAdmissao,
-                MeioAdmissao = usuario.MeioAdmissao,
+                DataAdmissao = _usuario.DataAdmissao,
+                MeioAdmissao = _usuario.MeioAdmissao,
 
-                Celular = usuario.Celular,
-                Senha = usuario.Senha
+                Celular = _usuario.Celular,
+                Senha = _usuario.Senha
             };
 
             await MembrosService.CadastrarMembroAsync(request);
@@ -339,37 +339,23 @@
             Console.WriteLine($"Erro ao cadastrar membro: {ex.Message}");
         }
     }
-    
-    private void OnTelefoneInput(ChangeEventArgs e)
-    {
-        string valor = e.Value?.ToString() ?? "";
-        _telefoneMascara = CelularFormatter.AplicarMascara(valor);
-        usuario.Telefone = CelularFormatter.RemoverMascara(valor);
-    }
-
-    private void OnCpfInput(ChangeEventArgs e)
-    {
-        string valor = e.Value?.ToString() ?? "";
-        _cpfMascara = CpfCnpjFormatter.AplicarMascara(valor);
-        usuario.Cpf = CpfCnpjFormatter.RemoverMascara(valor);
-    }
 
     private async Task OnCepInput(ChangeEventArgs e)
     {
         string valor = e.Value?.ToString() ?? "";
         _cepMascara = CepFormatter.AplicarMascara(valor);
-        usuario.Cep = CepFormatter.RemoverMascara(valor);
+        _usuario.Cep = CepFormatter.RemoverMascara(valor);
 
-        if (usuario.Cep.Length >= 8)
+        if (_usuario.Cep.Length >= 8)
         {
-            CepResponse? endereco = await CepService.GetEnderecoByCepAsync(usuario.Cep);
+            CepResponse? endereco = await CepService.GetEnderecoByCepAsync(_usuario.Cep);
             if (endereco is not null)
             {
-                usuario.Logradouro = endereco.Logradouro ?? "";
-                usuario.Bairro = endereco.Bairro ?? "";
-                usuario.Estado = endereco.Localidade ?? "";
-                usuario.Uf = endereco.Uf ?? "";
-                usuario.Complemento = endereco.Complemento ?? "";
+                _usuario.Logradouro = endereco.Logradouro ?? "";
+                _usuario.Bairro = endereco.Bairro ?? "";
+                _usuario.Estado = endereco.Localidade ?? "";
+                _usuario.Uf = endereco.Uf ?? "";
+                _usuario.Complemento = endereco.Complemento ?? "";
             }
             else if (_modalCepErro is not null)
                 await _modalCepErro.SetShowAsync(true);
@@ -380,56 +366,70 @@
     {
         if (Enum.TryParse<EstadoCivil>(e.Value?.ToString(), out var estadoCivil))
         {
-            usuario.EstadoCivil = estadoCivil;
+            _usuario.EstadoCivil = estadoCivil;
         }
+    }
+
+    private void OnTelefoneInput(ChangeEventArgs e)
+    {
+        string valor = e.Value?.ToString() ?? "";
+        _telefoneMascara = CelularFormatter.AplicarMascara(valor);
+        _usuario.Telefone = CelularFormatter.RemoverMascara(valor);
+    }
+
+    private void OnCpfInput(ChangeEventArgs e)
+    {
+        string valor = e.Value?.ToString() ?? "";
+        _cpfMascara = CpfCnpjFormatter.AplicarMascara(valor);
+        _usuario.Cpf = CpfCnpjFormatter.RemoverMascara(valor);
     }
 
     private void CloseCepModal()
     {
         _cepMascara = string.Empty;
-        usuario.Cep = string.Empty;
-        usuario.Estado = string.Empty;
-        usuario.Uf = string.Empty;
-        usuario.Bairro = string.Empty;
-        usuario.Logradouro = string.Empty;
-        usuario.Numero = string.Empty;
-        usuario.Complemento = string.Empty;
+        _usuario.Cep = string.Empty;
+        _usuario.Estado = string.Empty;
+        _usuario.Uf = string.Empty;
+        _usuario.Bairro = string.Empty;
+        _usuario.Logradouro = string.Empty;
+        _usuario.Numero = string.Empty;
+        _usuario.Complemento = string.Empty;
     }
 
     private void CloseCadastroMembroModal()
     {
-        usuario.NomeCompleto = string.Empty;
-        usuario.Cpf = string.Empty;
-        usuario.Cep = string.Empty;
-        usuario.Logradouro = string.Empty;
-        usuario.Complemento = string.Empty;
-        usuario.Bairro = string.Empty;
-        usuario.Uf = string.Empty;
-        usuario.Estado = string.Empty;
-        usuario.Numero = string.Empty;
-        usuario.Telefone = string.Empty;
-        usuario.DataNascimento = DateTime.Today;
-        usuario.Naturalidade = string.Empty;
-        usuario.Genero = default;
-        usuario.EstadoCivil = default;
-        usuario.TipoUsuario = TipoUsuario.Membro;
-        usuario.ConjugeId = null;
-        usuario.NomeConjuge = string.Empty;
-        usuario.DataCasamento = DateTime.Today;
-        usuario.NomePai = string.Empty;
-        usuario.NomeMae = string.Empty;
-        usuario.DataAdmissao = DateTime.Today;
-        usuario.MeioAdmissao = string.Empty;
-        usuario.Celular = string.Empty;
-        usuario.Senha = string.Empty;
-        usuario.Batismo = new Batismo
+        _usuario.NomeCompleto = string.Empty;
+        _usuario.Cpf = string.Empty;
+        _usuario.Cep = string.Empty;
+        _usuario.Logradouro = string.Empty;
+        _usuario.Complemento = string.Empty;
+        _usuario.Bairro = string.Empty;
+        _usuario.Uf = string.Empty;
+        _usuario.Estado = string.Empty;
+        _usuario.Numero = string.Empty;
+        _usuario.Telefone = string.Empty;
+        _usuario.DataNascimento = DateTime.Today;
+        _usuario.Naturalidade = string.Empty;
+        _usuario.Genero = default;
+        _usuario.EstadoCivil = default;
+        _usuario.TipoUsuario = TipoUsuario.Membro;
+        _usuario.ConjugeId = null;
+        _usuario.NomeConjuge = string.Empty;
+        _usuario.DataCasamento = DateTime.Today;
+        _usuario.NomePai = string.Empty;
+        _usuario.NomeMae = string.Empty;
+        _usuario.DataAdmissao = DateTime.Today;
+        _usuario.MeioAdmissao = string.Empty;
+        _usuario.Celular = string.Empty;
+        _usuario.Senha = string.Empty;
+        _usuario.Batismo = new Batismo
         {
             Data = DateTime.Today,
             Igreja = string.Empty,
             PastorId = null,
             PastorNomeManual = string.Empty
         };
-        usuario.ProfissaoDeFe = new ProfissaoDeFe
+        _usuario.ProfissaoDeFe = new ProfissaoDeFe
         {
             Data = DateTime.Today,
             Igreja = string.Empty,

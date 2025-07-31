@@ -4,6 +4,8 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+        <OutputPath>bin\$(Configuration)\</OutputPath>
+        <StaticWebAssetBasePath>Ibvc</StaticWebAssetBasePath>
     </PropertyGroup>
 
     <ItemGroup>

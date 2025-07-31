@@ -4,11 +4,17 @@ using Ibvc.UI.Utils;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Ibvc.UI;
+using Microsoft.AspNetCore.Components;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+builder.Services.AddScoped<NavigationManager>(sp =>
+{
+    var nav = sp.GetRequiredService<NavigationManager>();
+    return nav;
+});
 
 // HttpClient base para carregar o appsettings.json (pode ser usado no AppConfigurationService)
 builder.Services.AddScoped(sp => new HttpClient
