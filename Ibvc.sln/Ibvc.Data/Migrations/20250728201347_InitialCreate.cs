@@ -15,7 +15,8 @@ namespace Ibvc.Data.Migrations
                 name: "Batismo",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Data = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Pastor = table.Column<string>(type: "TEXT", nullable: false),
                     Igreja = table.Column<string>(type: "TEXT", nullable: false)
@@ -29,7 +30,8 @@ namespace Ibvc.Data.Migrations
                 name: "ProfissaoDeFe",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Data = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Pastor = table.Column<string>(type: "TEXT", nullable: false),
                     Igreja = table.Column<string>(type: "TEXT", nullable: false)
@@ -43,7 +45,8 @@ namespace Ibvc.Data.Migrations
                 name: "Usuarios",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     NomeCompleto = table.Column<string>(type: "TEXT", nullable: false),
                     Cep = table.Column<string>(type: "TEXT", nullable: false),
                     Logradouro = table.Column<string>(type: "TEXT", nullable: false),
@@ -58,13 +61,13 @@ namespace Ibvc.Data.Migrations
                     Genero = table.Column<int>(type: "INTEGER", nullable: false),
                     EstadoCivil = table.Column<int>(type: "INTEGER", nullable: false),
                     TipoUsuario = table.Column<int>(type: "INTEGER", nullable: false),
-                    ConjugeId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    ConjugeId = table.Column<int>(type: "INTEGER", nullable: true),
                     NomeConjuge = table.Column<string>(type: "TEXT", nullable: true),
                     DataCasamento = table.Column<DateTime>(type: "TEXT", nullable: true),
                     NomePai = table.Column<string>(type: "TEXT", nullable: true),
                     NomeMae = table.Column<string>(type: "TEXT", nullable: true),
-                    BatismoId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    ProfissaoDeFeId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    BatismoId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ProfissaoDeFeId = table.Column<int>(type: "INTEGER", nullable: true),
                     DataAdmissao = table.Column<DateTime>(type: "TEXT", nullable: false),
                     MeioAdmissao = table.Column<string>(type: "TEXT", nullable: false),
                     Celular = table.Column<string>(type: "TEXT", nullable: true),

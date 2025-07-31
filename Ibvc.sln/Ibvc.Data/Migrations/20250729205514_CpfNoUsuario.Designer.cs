@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ibvc.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250728003655_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250729205514_CpfNoUsuario")]
+    partial class CpfNoUsuario
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,9 +22,9 @@ namespace Ibvc.Data.Migrations
 
             modelBuilder.Entity("Ibvc.Domain.Entities.Batismo", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("TEXT");
@@ -44,9 +44,9 @@ namespace Ibvc.Data.Migrations
 
             modelBuilder.Entity("Ibvc.Domain.Entities.ProfissaoDeFe", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("TEXT");
@@ -66,16 +66,16 @@ namespace Ibvc.Data.Migrations
 
             modelBuilder.Entity("Ibvc.Domain.Entities.Usuario", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Bairro")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("BatismoId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("BatismoId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Celular")
                         .HasColumnType("TEXT");
@@ -87,7 +87,11 @@ namespace Ibvc.Data.Migrations
                     b.Property<string>("Complemento")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ConjugeId")
+                    b.Property<int?>("ConjugeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DataAdmissao")
@@ -137,8 +141,8 @@ namespace Ibvc.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ProfissaoDeFeId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("ProfissaoDeFeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Senha")
                         .HasColumnType("TEXT");

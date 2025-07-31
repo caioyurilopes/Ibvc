@@ -19,9 +19,9 @@ namespace Ibvc.Data.Migrations
 
             modelBuilder.Entity("Ibvc.Domain.Entities.Batismo", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("TEXT");
@@ -30,20 +30,24 @@ namespace Ibvc.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Pastor")
-                        .IsRequired()
+                    b.Property<int?>("PastorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PastorNomeManual")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PastorId");
 
                     b.ToTable("Batismo");
                 });
 
             modelBuilder.Entity("Ibvc.Domain.Entities.ProfissaoDeFe", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("TEXT");
@@ -52,27 +56,31 @@ namespace Ibvc.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Pastor")
-                        .IsRequired()
+                    b.Property<int?>("PastorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PastorNomeManual")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PastorId");
 
                     b.ToTable("ProfissaoDeFe");
                 });
 
             modelBuilder.Entity("Ibvc.Domain.Entities.Usuario", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Bairro")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("BatismoId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("BatismoId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Celular")
                         .HasColumnType("TEXT");
@@ -84,7 +92,11 @@ namespace Ibvc.Data.Migrations
                     b.Property<string>("Complemento")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ConjugeId")
+                    b.Property<int?>("ConjugeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DataAdmissao")
@@ -134,8 +146,8 @@ namespace Ibvc.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ProfissaoDeFeId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("ProfissaoDeFeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Senha")
                         .HasColumnType("TEXT");
@@ -161,6 +173,26 @@ namespace Ibvc.Data.Migrations
                     b.HasIndex("ProfissaoDeFeId");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("Ibvc.Domain.Entities.Batismo", b =>
+                {
+                    b.HasOne("Ibvc.Domain.Entities.Usuario", "Pastor")
+                        .WithMany()
+                        .HasForeignKey("PastorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Pastor");
+                });
+
+            modelBuilder.Entity("Ibvc.Domain.Entities.ProfissaoDeFe", b =>
+                {
+                    b.HasOne("Ibvc.Domain.Entities.Usuario", "Pastor")
+                        .WithMany()
+                        .HasForeignKey("PastorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Pastor");
                 });
 
             modelBuilder.Entity("Ibvc.Domain.Entities.Usuario", b =>

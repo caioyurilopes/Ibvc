@@ -4,10 +4,11 @@ namespace Ibvc.Domain.Entities;
 
 public class Usuario
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public int Id { get; set; }
 
     // Dados pessoais //
     public string NomeCompleto { get; set; } = string.Empty;
+    public string Cpf { get; set; } = string.Empty;
     public string Cep { get; set; } = string.Empty;
     public string Logradouro { get; set; } = string.Empty;
     public string? Complemento { get; set; } = string.Empty;
@@ -22,8 +23,8 @@ public class Usuario
     public EstadoCivil EstadoCivil { get; set; }
     public TipoUsuario TipoUsuario { get; set; }
 
-    // Conjugê //
-    public Guid? ConjugeId { get; set; }
+    // Cônjuge //
+    public int? ConjugeId { get; set; }
     public Usuario? Conjuge { get; set; }
     public string? NomeConjuge { get; set; } = string.Empty; // Nome manual
     public DateTime? DataCasamento { get; set; }

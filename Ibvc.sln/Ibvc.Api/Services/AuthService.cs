@@ -15,7 +15,7 @@ public class AuthService(IUsuarioRepository usuarioRepository, TokenService toke
             return new AuthResponse
             {
                 Succeeded = false,
-                Message = "Usuário não encontrado."
+                Message = "401"
             };
 
         bool senha = BCrypt.Net.BCrypt.Verify(request.Senha, usuario.Senha);
@@ -23,7 +23,7 @@ public class AuthService(IUsuarioRepository usuarioRepository, TokenService toke
             return new AuthResponse
             {
                 Succeeded = false,
-                Message = "Senha inválida."
+                Message = "403"
             };
 
         var response = tokenService.GenerateToken(usuario);
